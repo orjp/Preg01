@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head><title>Editar Estudiante</title></head>
+<body>
+<h2>Editar Estudiante</h2>
+<form action="EstudianteEditar" method="post">
+    <input type="hidden" name="id" id="id">
+    DNI: <input name="ndni" id="ndni"><br>
+    Ap. Paterno: <input name="appa" id="appa"><br>
+    Ap. Materno: <input name="apma" id="apma"><br>
+    Nombres: <input name="nomb" id="nomb"><br>
+    Fecha Nac: <input type="date" name="fecha" id="fecha"><br>
+    Usuario: <input name="logi" id="logi"><br>
+    <input type="submit" value="Actualizar">
+</form>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+    fetch("EstudianteObtener?id=" + params.get("id"))
+        .then(r => r.json())
+        .then(data => {
+            document.getElementById("id").value = data.codiEstdWeb;
+            document.getElementById("ndni").value = data.ndniEstdWeb;
+            document.getElementById("appa").value = data.appaEstdWeb;
+            document.getElementById("apma").value = data.apmaEstdWeb;
+            document.getElementById("nomb").value = data.nombEstdWeb;
+            document.getElementById("fecha").value = data.fechNaciEstdWeb;
+            document.getElementById("logi").value = data.logiEstd;
+        });
+</script>
+</body>
+</html>
+

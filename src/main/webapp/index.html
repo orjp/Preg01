@@ -95,8 +95,8 @@
               <a
                 class="collapse-item"
                 href="#"
-                onclick="cargarVista('/Hola/listar.html')"
-                >Listar</a
+                onclick="cargarVista('/Pregunta01/listar.html')"
+                >Listar Alumnos</a
               >
               <a class="collapse-item" href="#">Cards</a>
               <a class="collapse-item" href="#">Cards</a>
@@ -528,7 +528,7 @@
         listar();
       }
       async function listar() {
-        let respuesta = await fetch("SvGestion");
+        let respuesta = await fetch("SvAlumnos");
         let datos = await respuesta.json();
 
         // Vaciar tbody para evitar duplicados si se llama varias veces
@@ -538,10 +538,12 @@
         datos.forEach((p) => {
           const fila = document.createElement("tr");
           fila.innerHTML = `
-              <td>${p.codalm}</td>
-              <td>${p.desalm}</td>
-              <td>${p.estado}</td>
-              <td>${p.siscod}</td>
+              <td>${p.codiEstaWeb}</td>
+              <td>${p.appEstWeb}</td>
+              <td>${p.apmEstWeb}</td>
+              <td>${p.nombEstaWeb}</td>
+              <td>${p.fechNaciEstaWeb}</td>
+              <td>${p.logiEstd}</td>
               <td>
                 <button class="btn-editar">Editar</button>
                 <button class="btn-eliminar">Eliminar</button>
