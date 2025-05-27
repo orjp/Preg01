@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet(name="/LoginServlet", urlPatterns = "/LoginServlet")
+@WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
 public class LoginServlet extends HttpServlet {
 
     private EstudiantewebJpaController controller;
@@ -28,30 +28,30 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String username = request.getParameter("username");
-        String passwordParam = request.getParameter("password");
+        // Obtener valores del formulario
+        String nrodni = request.getParameter("nrodni");
+        String password = request.getParameter("password");
 
-        int password;
-        try {
-            password = Integer.parseInt(passwordParam);
-        } catch (NumberFormatException e) {
-            response.sendRedirect("login.html?error=invalid");
-            return;
-        }
+        System.out.println("LOGIN INGRESADO: " + nrodni + " / " + password);
 
         List<Estudianteweb> estudiantes = controller.findEstudiantewebEntities();
         for (Estudianteweb e : estudiantes) {
-            if (e.getNdniEstdWeb().equals(username) &&
-                e.getPassEstd().equals(password)) {
+            System.out.println("Comparando con: " + e.getNdniEstdWeb() + " / " + e.getPassEstd());
 
+            if (e.getNdniEstdWeb().trim().equals(nrodni.trim()) &&
+                e.getPassEstd().trim().equals(password.trim())) {
+
+                // Iniciar sesión
                 HttpSession session = request.getSession();
                 session.setAttribute("usuario", e);
-                response.sendRedirect("index.html");
+
+                // Redireccionar correctamente al index
+                response.sendRedirect(request.getContextPath() + "/index.html");
                 return;
             }
         }
 
-        // Si no coincide ningún usuario
+        // Falló el login
         response.sendRedirect("login.html?error=invalid");
     }
 }
